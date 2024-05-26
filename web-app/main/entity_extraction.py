@@ -1,31 +1,40 @@
 import os
+import sys
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from jinja2 import Template as jinja2Template
 import rich
 import logging
-import sys
 from typing import List
 from rich import print
 import inspect
 
-# Add the GoLLIE_MED/src directory to the sys.path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(project_root)
+print(f'Project root: {project_root}')
+gollie_med_path = os.path.join(project_root, "GoLLIE_MED")
+sys.path.append(gollie_med_path)
+print(f'GoLLIE_MED path: {gollie_med_path}')
 
-
-
-from GoLLIE_MED.src.model.load_model import load_model # this is in /hhome/nlp2_g09/Project/GoLLIE_MED/src/model/load_model.py
-
-from GoLLIE_MED.src.tasks.utils_typing import AnnotationList, dataclass, Template # this is in /hhome/nlp2_g09/Project/GoLLIE_MED/src/tasks/utils_typing.py
+from GoLLIE_MED.src.model.load_model import load_model
+from GoLLIE_MED.src.tasks.utils_typing import AnnotationList, dataclass, Template 
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-# Ensure PyTorch uses the correct CUDA device
-device = torch.device("cuda:5" if torch.cuda.is_available() else "cpu")
-torch.cuda.set_device(device)
+# Check available CUDA devices and set the appropriate device
+available_devices = torch.cuda.device_count()
+print(f"Available CUDA devices: {available_devices}")
 
+if available_devices > 0:
+    device = torch.device(f"cuda:{available_devices - 1}")  # Use the last available CUDA device
+    torch.cuda.set_device(device)
+    print(f"Using CUDA device: {device}")
+else:
+    device = torch.device("cpu")
+    print("No CUDA device available. Using CPU.")
+
+# The rest of your code remains the same
 model_path = "gollie_model.pt"
 tokenizer_path = "gollie_tokenizer"
 
@@ -50,6 +59,8 @@ else:
 
 # Ensure the model is on the correct device
 model.to(device)
+
+
 
 @dataclass
 class Medicación:
