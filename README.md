@@ -63,3 +63,20 @@ Start the application by executing the following script:
 ```bash
 ./run_app.sh
 ```
+
+3. **Access the web interface**
+Once the server is running, open your web browser and go to:
+```
+http://localhost:5000
+```
+
+You will see the interface for the Medical Document Summarizer where you can paste text, upload a file, or use voice input to summarize medical documents:
+
+![web-interface](https://github.com/Neilus03/recsum/assets/87651732/39266f92-3bbf-4333-92b2-8abde4084385)
+
+
+## Acknowledgements
+This project was developed by **Neil De La Fuente, Joan Samper, and Daniel Vidal** at the Computer Vision Center and Universitat Autònoma de Barcelona. Special thanks to "HiTZ zentroa" and the creators of GoLLIE: **Oscar Sainz, Iker García-Ferrero, Rodrigo Agerri, Oier Lopez de Lacalle, German Rigau, Eneko Agirre**
+
+
+
