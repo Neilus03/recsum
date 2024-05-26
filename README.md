@@ -52,11 +52,17 @@ pip install -r requirements.txt
 ## Usage
 To run the web application for the Medical Document Summarizer, follow these steps:
 
-1. **Navigate to the web-app directory**
+1. **Get and set Groq API KEY**
+Groq allows us to run Llama3-70b faster, and it's free. Get your API KEY from [here](https://console.groq.com/keys) and once you have it run the following command, substituting ```<API KEY>``` with your actual API KEY:
+```bash
+export GROQ_API_KEY='<API KEY>'
+```
+
+3. **Navigate to the web-app directory**
 ```bash
 cd web-app/main
 ```
-2. **Run the application**
+3. **Run the application**
 
 Start the application by executing the following script:
 
@@ -64,7 +70,7 @@ Start the application by executing the following script:
 ./run_app.sh
 ```
 
-3. **Access the web interface**
+4. **Access the web interface**
 Once the server is running, open your web browser and go to:
 ```
 http://localhost:5000
