@@ -13,4 +13,6 @@
 export CUDA_VISIBLE_DEVICES=3
 
 # Run the test script
-python /hhome/nlp2_g09/recsum/web-app/app.py
+#!/bin/bash
+export PYTHONPATH="/path/to/GoLLIE_MED/src:$PYTHONPATH"
+python /export/hhome/nlp2_g09/recsum/web-app/app.py
