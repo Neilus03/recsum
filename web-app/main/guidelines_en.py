@@ -1,7 +1,7 @@
 
 from dataclasses import dataclass, field
 from typing import List
-from src.tasks.utils_typing import Generic as Template
+from GoLLIE_MED.src.tasks.utils_typing import Generic as Template
 
 """
 ENTITY DEFINITION
