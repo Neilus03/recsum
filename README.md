@@ -1,5 +1,5 @@
 
-![Summarization Pipeline](https://github.com/Neilus03/recalling_summarization/assets/87651732/bf6a180c-f198-4ac9-a591-f7d782315e5c)
+![Summarization Pipeline](https://github.com/Neilus03/recsum/assets/87651732/de670f6e-720b-4d0d-821c-0531151e15cb)
 
 # Towards Improved Recall in Medical DocumenT Summarization: The GoLLIE Approach
 
