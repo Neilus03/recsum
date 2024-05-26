@@ -1,7 +1,7 @@
+# Towards Improved Recall in Medical DocumenT Summarization: The GoLLIE Approach
 
 ![Summarization Pipeline](https://github.com/Neilus03/recsum/assets/87651732/de670f6e-720b-4d0d-821c-0531151e15cb)
 
-# Towards Improved Recall in Medical DocumenT Summarization: The GoLLIE Approach
 
 This repository contains the code and resources for the Medical Document Summarizer, which uses the GoLLIE approach to improve recall in medical document summarization. The summarizer extracts key entities and details from medical texts and generates structured summaries using a few-shot learning approach on Llama3.
 
