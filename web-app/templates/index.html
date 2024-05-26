@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Document Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_web.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/static/favicon_io_1/favicon.ico" rel="icon">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="container">
+        <h1>Medical Document Summarizer</h1>
+        <form id="summarize-form">
+            <div class="form-group">
+                <label for="text">Paste text here:</label>
+                <textarea id="text" name="text" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="file">Or upload a file:</label>
+                <input type="file" id="file" name="file">
+            </div>
+            <div class="form-group">
+                <label for="audio">Or use voice input:</label>
+                <button type="button" class="record-btn" id="record-btn"><i class="fas fa-microphone"></i> Record</button>
+            </div>
+            <div class="form-group">
+                <label for="gollie-toggle">Use GoLLIE: <span class="tooltip">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="tooltiptext">Using GoLLIE will provide better recall but the summary may take longer to generate.</span>
+                </span></label>
+                <label class="switch">
+                    <input type="checkbox" id="gollie-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="schematic-toggle">Schematic Summary:</label>
+                <label class="switch">
+                    <input type="checkbox" id="schematic-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="submit">Summarize</button>
+            </div>
+        </form>
+        <div class="spinner" id="loading-spinner" style="display: none;"></div>
+        <div class="summary" id="summary"></div>
+    </div>
+    <script>
+        document.getElementById('summarize-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            document.getElementById('loading-spinner').style.display = 'block';
+            let formData = new FormData();
+            let fileInput = document.getElementById('file');
+            let textInput = document.getElementById('text').value;
+            let useGollie = document.getElementById('gollie-toggle').checked;
+            let schematic = document.getElementById('schematic-toggle').checked;
+
+            if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            } else if (textInput.trim() !== '') {
+                formData.append('text', textInput);
+            } else {
+                alert('Please provide text or upload a file.');
+                document.getElementById('loading-spinner').style.display = 'none';
+                return;
+            }
+
+            formData.append('use_gollie', useGollie);
+            formData.append('schematic', schematic);
+
+            let response = await fetch('/summarize', {
+                method: 'POST',
+                body: formData
+            });
+
+            let result = await response.json();
+
+            document.getElementById('loading-spinner').style.display = 'none';
+
+            if (result.error) {
+                alert(result.error);
+            } else {
+                document.getElementById('summary').innerHTML = formatChatResponse(result.summary);
+            }
+        });
+
+        function renderTableFromString(tableString) {
+            let rows = tableString.trim().split('\n');
+            let html = '<table class="chat-table">'; // Begin table
+            rows.forEach((row, index) => {
+                let columns = row.split('|').filter(col => col.trim() !== '');
+                html += index === 0 ? '<thead><tr>' : '<tr>'; // Use thead for the header row
+                columns.forEach(col => {
+                    // Apply bold formatting to all columns, headers, and data
+                    let formattedColumn = col.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                    html += index === 0 ? `<th>${formattedColumn}</th>` : `<td>${formattedColumn}</td>`; // Use th for headers and td for data
+                });
+                html += index === 0 ? '</tr></thead><tbody>' : '</tr>'; // Close thead and open tbody after the header row
+            });
+            html += '</tbody></table>'; // End table
+            return html;
+        }
+
+        function formatChatResponse(response) {
+            let paragraphs = response.split('\n\n');
+            let formattedResponse = '';
+
+            paragraphs.forEach(paragraph => {
+                if (paragraph.trim().startsWith('|')) {
+                    // Handle tables
+                    formattedResponse += renderTableFromString(paragraph);
+                } else {
+                    // Detect if the paragraph contains list items
+                    const listRegex = /^\d+\.\s|\*\s/gm; // Matches numbers followed by dots or "* " for list items
+                    if (listRegex.test(paragraph)) {
+                        // Transform lines into list items
+                        let listItems = paragraph.split('\n').map(item => {
+                            if (item.match(listRegex)) {
+                                return `<li>${item.replace(listRegex, '').trim()
+                                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // Bold
+                                    .replace(/\*(.+?)\*/g, '<em>$1</em>')             // Italics
+                                    .replace(/`(.+?)`/g, '<code>$1</code>')          // Code
+                                    }</li>`;
+                            }
+                            return item; // return the item as is if it doesn't match
+                        }).join('');
+                        formattedResponse += `<ul>${listItems}</ul>`;
+                    } else {
+                        // Handle regular paragraphs
+                        formattedResponse += `<p>${paragraph
+                            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // Bold
+                            .replace(/\*(.+?)\*/g, '<em>$1</em>')             // Italics
+                            .replace(/`(.+?)`/g, '<code>$1</code>')          // Code
+                            }</p>`;
+                    }
+                }
+            });
+            return formattedResponse;
+        }
+
+        // Voice recognition logic
+        let isRecording = false;
+        let recognition;
+        let recordButton = document.getElementById('record-btn');
+        
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                recordButton.classList.add('recording');
+                recordButton.innerHTML = '<i class="fas fa-microphone"></i> Recording...';
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                recordButton.classList.remove('recording');
+                recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record';
+            };
+
+            recognition.onresult = function(event) {
+                let transcript = event.results[0][0].transcript;
+                document.getElementById('text').value += ' ' + transcript;
+            };
+
+            recordButton.addEventListener('click', function() {
+                if (isRecording) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+        } else {
+            recordButton.disabled = true;
+            recordButton.innerHTML = 'Speech Recognition Not Supported';
+        }
+    </script>
+</body>
+</html>
