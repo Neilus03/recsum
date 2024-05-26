@@ -32,7 +32,34 @@ For more details, refer to our [paper](https://github.com/Neilus03/recsum/blob/m
 
 ## Installation
 
-To install the required packages, run:
+To install and run the Medical Document Summarizer, follow these steps:
+
+1. **Clone the repository**
 
 ```bash
+git clone https://github.com/Neilus03/recsum.git
+cd recsum
+```
+2. **Set up a conda environment**
+```bash
+conda create -n Gollie
+conda activate Gollie
+```
+3. **Install the required packages**
+```bash
 pip install -r requirements.txt
+```
+## Usage
+To run the web application for the Medical Document Summarizer, follow these steps:
+
+1. **Navigate to the web-app directory**
+```bash
+cd web-app/main
+```
+2. **Run the application**
+
+Start the application by executing the following script:
+
+```bash
+./run_app.sh
+```
