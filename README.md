@@ -21,7 +21,7 @@ This repository contains the code and resources for the Medical Document Summari
 
 Maintaining the accuracy of extracted information in medical document summarization is crucial due to the potential consequences of errors. This project leverages GoLLIE, a Guideline-following Large Language Model for Information Extraction, to enhance recall by identifying key entities and essential details in medical texts. The extracted entities and details are used to generate structured summaries using a few-shot learning approach on Llama3.
 
-For more details, refer to our [paper](https://github.com/Neilus03/recsum/Blob/main/Towards_Improved_Recall_in_Medical_Document_Summarization%3AThe_GoLLIE_Approach.pdf).
+For more details, refer to our [paper](https://github.com/Neilus03/recsum/blob/main/Towards_Improved_Recall_in_Medical_Document_Summarization%3AThe_GoLLIE_Approach.pdf).
 
 ## Features
 
