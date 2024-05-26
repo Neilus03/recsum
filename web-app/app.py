@@ -5,8 +5,7 @@ import sys
 import subprocess
 import fitz  # PyMuPDF
 import re
-from main.entity_extraction_2 import get_gollie_entities
-from whisper_web import whisper_transcribe
+from main.entity_extraction import get_gollie_entities
 
 # Add the GoLLIE_MED/src directory to the sys.path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
