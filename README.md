@@ -68,6 +68,7 @@ Start the application by executing the following script:
 ```
 
 4. **Reproduce Results**
+
 To reproduce results you have to run the following file located in the main folder of the web-app.:
 ``` bash
 sh compute_results.sh
