@@ -77,7 +77,7 @@ This results will be saved in the route ../web-app/main/results/results_output
 
 To see the individual files used to compute results check the folder ../web-app/main/results where you will find all the .py files necessary to reproduce the results presented in the paper.
 
-6. **Access the web interface**
+5. **Access the web interface**
 Once the server is running, open your web browser and go to:
 ```
 http://localhost:5000
