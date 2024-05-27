@@ -73,6 +73,7 @@ To reproduce results you have to run the following file located in the main fold
 sh compute_results.sh
 ``` 
 This results will be saved in the route ../web-app/main/results/results_output
+
 To see the individual files used to compute results check the folder ../web-app/main/results where you will find all the .py files necessary to reproduce the results presented in the paper.
 
 6. **Access the web interface**
