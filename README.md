@@ -11,11 +11,8 @@ This repository contains the code and resources for the Medical Document Summari
 2. [Features](#features)
 3. [Installation](#installation)
 4. [Usage](#usage)
-5. [Repository Structure](#repository-structure)
-6. [Experiments and Results](#experiments-and-results)
-7. [Contributing](#contributing)
-8. [License](#license)
-9. [Acknowledgements](#acknowledgements)
+5. [Experiments and Results](#experiments-and-results)
+6. [Acknowledgements](#acknowledgements)
 
 ## Introduction
 
