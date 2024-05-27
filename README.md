@@ -55,7 +55,7 @@ Groq allows us to run Llama3-70b faster, and it's free. Get your API KEY from [h
 export GROQ_API_KEY='<API KEY>'
 ```
 
-3. **Navigate to the web-app directory**
+2. **Navigate to the web-app directory**
 ```bash
 cd web-app/main
 ```
@@ -67,7 +67,12 @@ Start the application by executing the following script:
 ./run_app.sh
 ```
 
-4. **Access the web interface**
+4. **Reproduce Results**
+To reproduce results you have to run the compute_results.sh file in the main folder of the web-app. 
+This results will be saved in the route ../web-app/main/results/results_output
+If you want to see the individual files used to compute results check the folder ../web-app/main/results where you will find all the .py files necessary to reproduce the results presented in the paper.
+
+5. **Access the web interface**
 Once the server is running, open your web browser and go to:
 ```
 http://localhost:5000
