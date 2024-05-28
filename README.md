@@ -4,7 +4,7 @@
 
 
 This repository contains the code and resources for the Medical Document Summarizer, which uses the GoLLIE approach to improve recall in medical document summarization. The summarizer extracts key entities and details from medical texts and generates structured summaries using a few-shot learning approach on Llama3.
-
+  
 ## Table of Contents
 
 1. [Introduction](#introduction)
