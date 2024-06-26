@@ -1,4 +1,4 @@
-# Towards Improved Recall in Medical Document Summarization: The GoLLIE Approach 
+# Towards Improved Recall in Medical Document Summarization: The GoLLIE Approach  
 
 ![Summarization Pipeline](https://github.com/Neilus03/recsum/assets/87651732/de670f6e-720b-4d0d-821c-0531151e15cb)
 
